@@ -1,5 +1,4 @@
 # SSTSProject
-An android mobile application that monitor driver performance, detect crashes and send notifications in case of a supposed crash.
+An android mobile application that monitor driver performance, detect crashes and send notifications to a preferred emergency contact in case of a supposed crash.
 
-NOTE: CRASH DETECTION REQUIRES FURTHER EXPERIMENTAL ANALYSIS AND TESTING. THEREFORE, THE FACTOR THAT TRIGGERS THE MEASURES TAKEN IN CASE OF A CRASH, IS A SIMPLE SHAKE OF THE PHONE.
-PERFORMANE MONITORING IS DONE BASED ON VARIATIONS PRESENT IN SPEED DATA TAKEN OVER THE COURSE OF A TRIP.
+NOTE: Crash detection requires further experimental analysis and testing. Therefore, the factor that triggers the measures taken in case of a crash, is a simple shake of the phone. Performance monitoring is done based on variations present in speed data taken over the course of a trip. 
