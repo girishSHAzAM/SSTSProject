@@ -32,7 +32,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 public class DisplayActivity extends AppCompatActivity {
     Handler welcomeHandler;
     Thread welcomeThread;
@@ -41,7 +40,6 @@ public class DisplayActivity extends AppCompatActivity {
     LoadingDialog loader;
     FirebaseAuth userAuth;
     FirebaseFirestore db;
-    boolean alertWindow = true;
     private int PERMISSION_CODE = 1;
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469;
     @Override
@@ -49,6 +47,7 @@ public class DisplayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display);
         statusCheck();
+        checkPermission();
         loader = new LoadingDialog(DisplayActivity.this);
         loader.startLoadDialog();
         userAuth = FirebaseAuth.getInstance();
@@ -89,16 +88,13 @@ public class DisplayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DisplayActivity.this, "Checking permissions...", Toast.LENGTH_SHORT).show();
-                checkPermission();
-                if ((ContextCompat.checkSelfPermission(DisplayActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(DisplayActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(DisplayActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
-                    if(alertWindow == true) {
+                if ((ContextCompat.checkSelfPermission(DisplayActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(DisplayActivity.this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED)) {
+
                         Intent startTrip = new Intent(DisplayActivity.this, setLocation.class);
                         startActivity(startTrip);
                         Toast.makeText(DisplayActivity.this, "Enter destination", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(DisplayActivity.this,"Overlay Permission Required! Please Re-Open the app!",Toast.LENGTH_LONG).show();
-                    }
+
+
                 } else {
                     requestLocPermissions();
                 }
@@ -129,10 +125,7 @@ public class DisplayActivity extends AppCompatActivity {
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
             if (!Settings.canDrawOverlays(this)) {
                 checkPermission();
-            } else {
-
             }
-
         }
 
     }
@@ -146,15 +139,15 @@ public class DisplayActivity extends AppCompatActivity {
         }
     }
     public void requestLocPermissions() {
-        if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)) && (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO))) {
+        if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) && (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECORD_AUDIO))) {
             new AlertDialog.Builder(this)
-                    .setTitle("Background Location and SMS Permissions Needed")
-                    .setMessage("Background Location and SMS permissions are needed for the proper functioning of this application.")
+                    .setTitle("Location and SMS Permissions Needed")
+                    .setMessage("Location and SMS permissions are needed for the proper functioning of this application.")
                     .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             ActivityCompat.requestPermissions(DisplayActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS}, PERMISSION_CODE);
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS}, PERMISSION_CODE);
                         }
                     })
                     .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -166,7 +159,7 @@ public class DisplayActivity extends AppCompatActivity {
                     .create().show();
         } else {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS}, PERMISSION_CODE);
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS}, PERMISSION_CODE);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.officialproject1;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -13,7 +14,9 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +58,7 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
     GoogleMap map;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +67,8 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
         searchLoc = findViewById(R.id.input_set_location);
         searchBtn = findViewById(R.id.btn_search_loc);
         trackBtn = findViewById(R.id.btn_start_track);
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(setLocation.this,"Please enable location permissions for the application",Toast.LENGTH_LONG).show();
+        if((ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) || !Settings.canDrawOverlays(this)){
+            Toast.makeText(setLocation.this,"Please enable location and floating window permissions for the application",Toast.LENGTH_LONG).show();
             finish();
         }
         initGMap(savedInstanceState);
@@ -180,7 +184,7 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding

@@ -1,5 +1,6 @@
 package com.example.officialproject1;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -32,8 +33,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-
 public class MainActivity extends AppCompatActivity {
     Intent serviceIntent,finishIntent;
     NotificationManager mNotificationManager;
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     SpeedReceiver speedReceiver;
     Button googleMaps;
     Bundle bundle;
-    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         endLat = bundle.getDouble("endLat");
         endLong = bundle.getDouble("endLong");
         googleMaps = findViewById(R.id.btn_googleMaps);
-        if ((ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        if ((ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
                 == PackageManager.PERMISSION_GRANTED)) {
             startLocationService();
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void requestLocationPermission(){
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_BACKGROUND_LOCATION)){
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
             new AlertDialog.Builder(this)
                     .setTitle("Permission Required")
                     .setMessage("Permissions required to preserve application functionality")
@@ -133,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION,Manifest.permission.SEND_SMS},
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS},
                                     LOCATION_PERMISSION_CODE);
                         }
                     })
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     }).create().show();
         }else{
             ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION,Manifest.permission.SEND_SMS},
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.SEND_SMS},
                     LOCATION_PERMISSION_CODE);
         }
     }
@@ -216,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setSpeed(double speed){
         String strSpeed = String.format("%.2f",speed);
+        Log.d("strSpeed",strSpeed);
         speedText.setText("Speed is: "+strSpeed+" KM/H");
     }
     public void finishTrip(boolean finishTrip){
