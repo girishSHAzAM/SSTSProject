@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:weightSum="6"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/startDate"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:text="Start date" />
+
+    <TextView
+        android:id="@+id/endDate"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="End Date" />
+
+    <TextView
+        android:id="@+id/origin"
+        android:layout_weight="1"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Origin" />
+    <TextView
+        android:id="@+id/dest"
+        android:layout_weight="1"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Destination" />
+    <TextView
+        android:id="@+id/score"
+        android:layout_weight="1"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Score" />
+    <TextView
+        android:id="@+id/tripStatus"
+        android:layout_weight="1"
+        android:textSize="10sp"
+        android:layout_width="5dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Trip Status" />
+
+</LinearLayout>
